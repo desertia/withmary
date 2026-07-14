@@ -17,3 +17,10 @@ GitHub Pages에서 바로 사용할 수 있는 정적 홈페이지입니다.
 
 ## GitHub Pages
 저장소의 Settings → Pages → Deploy from a branch → main / root를 선택합니다.
+
+## Sprint 8
+- Hero 타이포그래피와 여백 조정
+- 3중 앱 화면 스테이지 적용
+- 오늘의 말씀 카드 추가
+- 오로라와 브랜드 워터마크 절제
+- 데스크톱 미세 포인터 반응 적용

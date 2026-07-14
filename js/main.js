@@ -36,3 +36,19 @@ if(carousel){
   viewport.addEventListener('pointerup',endDrag);viewport.addEventListener('pointercancel',endDrag);viewport.addEventListener('pointerleave',endDrag);
   window.addEventListener('resize',render,{passive:true});render();
 }
+
+const heroStage=document.querySelector('.hero-device-stage');
+if(heroStage&&window.matchMedia('(pointer:fine)').matches&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+  const heroDevices=[...heroStage.querySelectorAll('.hero-device')];
+  heroStage.addEventListener('pointermove',event=>{
+    const rect=heroStage.getBoundingClientRect();
+    const x=(event.clientX-rect.left)/rect.width-.5;
+    const y=(event.clientY-rect.top)/rect.height-.5;
+    heroDevices.forEach((device,i)=>{
+      const depth=i===1?10:5;
+      device.style.marginLeft=`${x*depth}px`;
+      device.style.marginTop=`${y*depth}px`;
+    });
+  });
+  heroStage.addEventListener('pointerleave',()=>heroDevices.forEach(device=>{device.style.marginLeft='';device.style.marginTop=''}));
+}
