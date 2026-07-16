@@ -263,3 +263,9 @@
   .hero-device{padding:5px;border-radius:38px}.hero-device::before{border-radius:35px}.hero-device img{border-radius:32px}
   .hero-device figcaption{display:none}
 }
+
+
+#hero-title{line-height:1.02;}
+#hero-title .hero-emphasis{font-size:1.08em;display:inline-block;}
+.hero-premium-description{line-height:1.7;}
+.hero-scripture{padding:28px 34px;border-radius:24px;}
