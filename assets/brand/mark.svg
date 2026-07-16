@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">With Mary</title>
+  <desc id="desc">라벤더 그라데이션 트레포일 십자가</desc>
+  <defs>
+    <linearGradient id="bg" x1="18" y1="14" x2="112" y2="116" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7668FF"/>
+      <stop offset=".52" stop-color="#9B78F4"/>
+      <stop offset="1" stop-color="#E58CC6"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="7" stdDeviation="8" flood-color="#6755C8" flood-opacity=".22"/>
+    </filter>
+  </defs>
+  <rect x="8" y="8" width="112" height="112" rx="30" fill="url(#bg)" filter="url(#shadow)"/>
+  <g fill="#fff">
+    <circle cx="64" cy="35" r="13"/>
+    <circle cx="43" cy="57" r="13"/>
+    <circle cx="85" cy="57" r="13"/>
+    <path d="M55 43h18v49c0 8-4 14-9 14s-9-6-9-14V43Z"/>
+    <rect x="42" y="49" width="44" height="18" rx="9"/>
+  </g>
+</svg>
