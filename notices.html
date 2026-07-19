@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- MARK: 기본 설정 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공지 관리 | With Mary Admin</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="admin-page">
+    <!-- MARK: 인증 확인 중 화면 -->
+    <div id="pageLoading" class="page-loading" role="status">관리자 권한을 확인하고 있습니다...</div>
+
+    <!-- MARK: 관리자 화면 -->
+    <div id="adminContent" class="admin-shell" hidden>
+        <header class="admin-header">
+            <div class="admin-brand">
+                <img src="../assets/brand/logo.png" alt="With Mary">
+                <span>Admin</span>
+            </div>
+
+            <div class="admin-account">
+                <span id="adminEmail"></span>
+                <button id="logoutButton" class="secondary-button" type="button">로그아웃</button>
+            </div>
+        </header>
+
+        <main class="admin-main">
+            <div class="page-heading">
+                <div>
+                    <p class="eyebrow">WITH MARY ADMIN</p>
+                    <h1>공지 관리</h1>
+                    <p>앱과 웹사이트에 표시할 공지를 관리합니다.</p>
+                </div>
+                <a class="primary-button button-link" href="notice.html">새 공지 작성</a>
+            </div>
+
+            <section class="empty-card">
+                <div class="empty-icon">✦</div>
+                <h2>로그인 기능이 연결되었습니다</h2>
+                <p>다음 단계에서 Firestore 공지 목록을 이 화면에 불러옵니다.</p>
+            </section>
+        </main>
+    </div>
+
+    <!-- MARK: 관리자 화면 인증 모듈 -->
+    <script type="module" src="js/notices.js"></script>
+</body>
+</html>

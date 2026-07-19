@@ -28,11 +28,11 @@ body {
 button, input { font: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
 button { cursor: pointer; }
-
-/* MARK: - hidden 속성 보장
-   display:grid/flex 같은 CSS가 HTML의 hidden 속성을 덮어쓰지 않도록 합니다. */
-[hidden] { display: none !important; }
 button:disabled { cursor: not-allowed; opacity: .65; }
+
+/* MARK: - hidden 속성 보호
+   display:grid/flex 규칙보다 hidden 속성이 항상 우선하도록 합니다. */
+[hidden] { display: none !important; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
 /* MARK: - 로그인 페이지 */
