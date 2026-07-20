@@ -1,1 +1,43 @@
-<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>환희의 신비 | With Mary</title><meta name="description" content="묵주기도 환희의 신비를 성경 말씀과 함께 묵상해 보세요."><link rel="stylesheet" href="css/style.css"></head><body><main style="max-width:900px;margin:0 auto;padding:40px 20px;line-height:1.8"><h1>🌹 환희의 신비</h1><p>환희의 신비는 예수님의 탄생과 성장 과정에서 드러난 하느님의 사랑을 묵상하는 신비입니다.</p><h2>1. 마리아께서 예수님을 잉태하심</h2><p><strong>루카 1,38</strong></p><p>주님의 뜻에 기꺼이 응답한 성모님의 순명을 묵상합니다.</p><h2>2. 마리아께서 엘리사벳을 찾아보심</h2><p><strong>루카 1,39-45</strong></p><h2>3. 예수님께서 탄생하심</h2><p><strong>루카 2,1-20</strong></p><h2>4. 예수님을 성전에 바치심</h2><p><strong>루카 2,22-35</strong></p><h2>5. 예수님을 성전에서 찾으심</h2><p><strong>루카 2,41-52</strong></p><hr><p>With Mary와 함께 하루의 기도를 이어가 보세요.</p><p><a href="https://apps.apple.com/app/id6788407790">App Store에서 보기</a></p></main></body></html>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>환희의 신비 | With Mary</title>
+  <meta name="description" content="묵주기도 환희의 신비를 성경 말씀과 함께 묵상해 보세요.">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .joyful-page{max-width:900px;margin:0 auto;padding:40px 20px;line-height:1.8}
+    .page-back{display:inline-flex;align-items:center;gap:7px;margin-bottom:28px;color:var(--purple);font-size:15px;font-weight:750;transition:transform .2s ease}
+    .page-back:hover{transform:translateX(-3px)}
+  </style>
+  <script>
+    function returnToPreviousPage(event) {
+      try {
+        const previousPage = new URL(document.referrer);
+        if (previousPage.origin === window.location.origin) {
+          event.preventDefault();
+          window.history.back();
+        }
+      } catch (error) {
+        // 직접 주소로 접속한 경우 href의 Guide 페이지로 이동합니다.
+      }
+    }
+  </script>
+</head>
+<body>
+<main class="joyful-page">
+  <a class="page-back" href="guide.html" onclick="returnToPreviousPage(event)">← 이전 페이지</a>
+  <h1>🌹 환희의 신비</h1>
+  <p>환희의 신비는 예수님의 탄생과 성장 과정에서 드러난 하느님의 사랑을 묵상하는 신비입니다.</p>
+  <h2>1. 마리아께서 예수님을 잉태하심</h2><p><strong>루카 1,38</strong></p><p>주님의 뜻에 기꺼이 응답한 성모님의 순명을 묵상합니다.</p>
+  <h2>2. 마리아께서 엘리사벳을 찾아보심</h2><p><strong>루카 1,39-45</strong></p>
+  <h2>3. 예수님께서 탄생하심</h2><p><strong>루카 2,1-20</strong></p>
+  <h2>4. 예수님을 성전에 바치심</h2><p><strong>루카 2,22-35</strong></p>
+  <h2>5. 예수님을 성전에서 찾으심</h2><p><strong>루카 2,41-52</strong></p>
+  <hr>
+  <p>With Mary와 함께 하루의 기도를 이어가 보세요.</p>
+  <p><a href="https://apps.apple.com/app/id6788407790">App Store에서 보기</a></p>
+</main>
+</body>
+</html>

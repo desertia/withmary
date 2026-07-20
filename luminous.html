@@ -20,6 +20,8 @@
   <link rel="stylesheet" href="css/style.css">
   <style>
     .mystery-page{max-width:900px;margin:0 auto;padding:40px 20px 80px;line-height:1.8}
+    .page-back{display:inline-flex;align-items:center;gap:7px;margin-bottom:28px;color:var(--purple);font-size:15px;font-weight:750;transition:transform .2s ease}
+    .page-back:hover{transform:translateX(-3px)}
     .mystery-page-header{margin-bottom:36px}
     .mystery-page-header h1{margin:0 0 4px;font-size:clamp(38px,7vw,54px);line-height:1.18;letter-spacing:-.05em}
     .mystery-page-subtitle{margin:0 0 18px;color:var(--purple);font-size:15px;font-weight:750;letter-spacing:.08em}
@@ -52,9 +54,23 @@
     }
   }
   </script>
+  <script>
+    function returnToPreviousPage(event) {
+      try {
+        const previousPage = new URL(document.referrer);
+        if (previousPage.origin === window.location.origin) {
+          event.preventDefault();
+          window.history.back();
+        }
+      } catch (error) {
+        // 직접 주소로 접속한 경우 href의 Guide 페이지로 이동합니다.
+      }
+    }
+  </script>
 </head>
 <body>
 <main class="mystery-page">
+  <a class="page-back" href="guide.html" onclick="returnToPreviousPage(event)">← 이전 페이지</a>
   <header class="mystery-page-header">
     <h1>✨ 빛의 신비</h1>
     <p class="mystery-page-subtitle">Luminous Mysteries</p>
