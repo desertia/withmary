@@ -26,11 +26,15 @@
     a.mystery-card:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(58,43,103,.10)}
     .mystery-card.joyful{background:linear-gradient(145deg,#fff8fb,#f7f2ff);border-color:rgba(117,103,255,.18)}
     .mystery-card.luminous{background:linear-gradient(145deg,#fffdf5,#f3f7ff);border-color:rgba(117,103,255,.18)}
+    .mystery-card.sorrowful{background:linear-gradient(145deg,#fff8f8,#fff);border-color:rgba(210,104,104,.14)}
+    .mystery-card.glorious{background:linear-gradient(145deg,#fffdf5,#fff8e7);border-color:rgba(202,157,73,.16)}
+    .mystery-card.coming{opacity:.78;cursor:default}
     .mystery-symbol{font-size:30px;line-height:1}
     .mystery-card h3{margin:18px 0 2px;font-size:24px;letter-spacing:-.04em}
     .mystery-card small{margin-bottom:9px;color:var(--purple);font-size:12px;font-weight:750;letter-spacing:.06em}
     .mystery-card p{margin:0;color:var(--muted);font-size:14px;line-height:1.65}
     .mystery-link{margin-top:auto;padding-top:22px;color:var(--purple);font-weight:750;font-size:14px}
+    .mystery-status{margin-top:auto;padding-top:22px;color:#99959f;font-size:13px;font-weight:750;letter-spacing:.04em}
     .guide-cta{text-align:center;margin-top:50px}
     .guide-cta a{display:inline-block;background:var(--purple);color:#fff;padding:14px 28px;border-radius:999px;font-weight:700}
     @media(max-width:620px){.guide{padding:110px 18px 76px}.guide-hero{padding:42px 24px}.guide-card{padding:24px}.mystery-grid{grid-template-columns:1fr}.mystery-card{min-height:190px}}
@@ -89,6 +93,16 @@
         <small>Luminous Mysteries</small>
         <p>예수님의 공생활과 하느님 나라의 빛을 묵상합니다.</p><span class="mystery-link">자세히 보기 →</span>
       </a>
+      <article class="mystery-card sorrowful coming" aria-label="고통의 신비 준비 중">
+        <span class="mystery-symbol" aria-hidden="true">✝️</span><h3>고통의 신비</h3>
+        <small>Sorrowful Mysteries</small>
+        <p>예수님의 수난과 십자가의 길을 묵상합니다.</p><span class="mystery-status">Coming Soon</span>
+      </article>
+      <article class="mystery-card glorious coming" aria-label="영광의 신비 준비 중">
+        <span class="mystery-symbol" aria-hidden="true">👑</span><h3>영광의 신비</h3>
+        <small>Glorious Mysteries</small>
+        <p>예수님의 부활과 성모님의 영광을 묵상합니다.</p><span class="mystery-status">Coming Soon</span>
+      </article>
     </div>
   </section>
 
