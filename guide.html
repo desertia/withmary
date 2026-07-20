@@ -1,52 +1,104 @@
 <!DOCTYPE html>
-<html lang="ko"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>묵주기도 하는 방법 | With Mary</title>
-<meta name="description" content="처음 묵주기도를 시작하는 분들을 위한 순서와 안내입니다.">
-<link rel="stylesheet" href="css/style.css">
-<style>
-.guide{max-width:860px;margin:120px auto 80px;padding:0 24px;line-height:1.9}
-.hero{background:linear-gradient(135deg,#fff,#f8f4ff);padding:48px;border-radius:24px;box-shadow:var(--shadow);text-align:center;margin-bottom:40px}
-.hero h1{margin:0 0 12px;font-size:42px}
-.hero p{color:var(--muted)}
-.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:28px;margin:24px 0}
-.steps li{margin:10px 0}
-.cta{text-align:center;margin-top:42px}
-.cta a{display:inline-block;background:var(--purple);color:#fff;padding:14px 28px;border-radius:999px}
-</style>
-</head><body>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>묵주기도 하는 방법 | With Mary</title>
+  <meta name="description" content="처음 묵주기도를 시작하는 분들을 위한 순서와 신비 안내입니다.">
+  <link rel="icon" href="assets/icons/favicon-32.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/main.js" defer></script>
+  <style>
+    .guide{max-width:960px;margin:0 auto;padding:150px 24px 100px;line-height:1.9}
+    .guide-hero{background:linear-gradient(135deg,#fff,#f8f4ff);padding:56px 40px;border-radius:28px;box-shadow:var(--shadow);text-align:center;margin-bottom:40px}
+    .guide-hero .eyebrow{margin:0 0 10px;color:var(--purple);font-size:13px;font-weight:800;letter-spacing:.16em}
+    .guide-hero h1{margin:0 0 14px;font-size:clamp(38px,6vw,54px);line-height:1.15;letter-spacing:-.05em}
+    .guide-hero p{margin:0;color:var(--muted)}
+    .guide-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:30px;margin:24px 0}
+    .guide-card h2{margin-top:0}
+    .steps li{margin:10px 0}
+    .mysteries{margin-top:56px}
+    .mysteries-heading{text-align:center;margin-bottom:26px}
+    .mysteries-heading .eyebrow{margin:0 0 8px;color:var(--purple);font-size:13px;font-weight:800;letter-spacing:.14em}
+    .mysteries-heading h2{margin:0 0 8px;font-size:34px;letter-spacing:-.04em}
+    .mysteries-heading p{margin:0;color:var(--muted)}
+    .mystery-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+    .mystery-card{min-height:210px;padding:28px;border:1px solid var(--line);border-radius:22px;background:#fff;display:flex;flex-direction:column;transition:transform .2s ease,box-shadow .2s ease}
+    a.mystery-card:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(58,43,103,.10)}
+    .mystery-card.joyful{background:linear-gradient(145deg,#fff8fb,#f7f2ff);border-color:rgba(117,103,255,.18)}
+    .mystery-symbol{font-size:30px;line-height:1}
+    .mystery-card h3{margin:18px 0 7px;font-size:24px;letter-spacing:-.04em}
+    .mystery-card p{margin:0;color:var(--muted);font-size:14px;line-height:1.65}
+    .mystery-link{margin-top:auto;padding-top:22px;color:var(--purple);font-weight:750;font-size:14px}
+    .mystery-card.coming{background:#fafafa;color:#8b8990}
+    .mystery-status{margin-top:auto;padding-top:22px;color:#aaa7af;font-size:13px;font-weight:700}
+    .guide-cta{text-align:center;margin-top:50px}
+    .guide-cta a{display:inline-block;background:var(--purple);color:#fff;padding:14px 28px;border-radius:999px;font-weight:700}
+    @media(max-width:620px){.guide{padding:110px 18px 76px}.guide-hero{padding:42px 24px}.guide-card{padding:24px}.mystery-grid{grid-template-columns:1fr}.mystery-card{min-height:190px}}
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a aria-label="With Mary 홈" class="brand" href="index.html"><img alt="With Mary" src="assets/brand/logo.png"></a>
+    <nav aria-label="주요 메뉴" class="site-nav">
+      <a href="index.html">Home</a><a class="active" href="guide.html">Guide</a><a href="support.html">Support</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a>
+    </nav>
+    <a class="header-store-badge" href="index.html#download"><span class="apple"></span><span><small>Download on the</small>App Store</span></a>
+  </div>
+</header>
 <main class="guide">
-<section class="hero">
-<h1>묵주기도 하는 방법</h1>
-<p>기도는 서두르지 않아도 됩니다.<br>With Mary와 함께 한 단, 한 단 차분히 기도를 이어가 보세요.</p>
-</section>
+  <section class="guide-hero">
+    <p class="eyebrow">ROSARY GUIDE</p>
+    <h1>묵주기도 하는 방법</h1>
+    <p>기도는 서두르지 않아도 됩니다.<br>With Mary와 함께 한 단, 한 단 차분히 기도를 이어가 보세요.</p>
+  </section>
 
-<section class="card">
-<h2>묵주기도란?</h2>
-<p>묵주기도는 예수 그리스도의 생애를 묵상하며 성모 마리아와 함께 드리는 대표적인 가톨릭 기도입니다. 하루의 짧은 시간이라도 마음을 모아 기도하는 것이 가장 중요합니다.</p>
-</section>
+  <section class="guide-card">
+    <h2>묵주기도란?</h2>
+    <p>묵주기도는 예수 그리스도의 생애를 묵상하며 성모 마리아와 함께 드리는 대표적인 가톨릭 기도입니다. 하루의 짧은 시간이라도 마음을 모아 기도하는 것이 가장 중요합니다.</p>
+  </section>
 
-<section class="card">
-<h2>기도 순서</h2>
-<ol class="steps">
-<li>성호경</li>
-<li>사도신경</li>
-<li>주님의 기도</li>
-<li>성모송 3번</li>
-<li>영광송</li>
-<li>환희 · 빛 · 고통 · 영광의 신비 중 하나를 선택하여 5단을 바칩니다.</li>
-<li>성모찬송</li>
-<li>마침기도</li>
-</ol>
-</section>
+  <section class="guide-card">
+    <h2>기도 순서</h2>
+    <ol class="steps">
+      <li>성호경</li><li>사도신경</li><li>주님의 기도</li><li>성모송 3번</li><li>영광송</li>
+      <li>환희 · 빛 · 고통 · 영광의 신비 중 하나를 선택하여 5단을 바칩니다.</li>
+      <li>성모찬송</li><li>마침기도</li>
+    </ol>
+  </section>
 
-<section class="card">
-<h2>처음 시작하는 분들에게</h2>
-<p>처음에는 순서를 모두 외우지 않아도 괜찮습니다. With Mary는 기도 순서를 자연스럽게 안내해 드리므로, 기도에만 집중하시면 됩니다.</p>
-</section>
+  <section class="guide-card">
+    <h2>처음 시작하는 분들에게</h2>
+    <p>처음에는 순서를 모두 외우지 않아도 괜찮습니다. With Mary는 기도 순서를 자연스럽게 안내해 드리므로, 기도에만 집중하시면 됩니다.</p>
+  </section>
 
-<div class="cta">
-<a href="https://apps.apple.com/app/id6788407790">With Mary로 기도 시작하기</a>
-</div>
+  <section class="mysteries" aria-labelledby="mysteries-title">
+    <div class="mysteries-heading">
+      <p class="eyebrow">MYSTERIES OF THE ROSARY</p>
+      <h2 id="mysteries-title">묵주기도의 네 가지 신비</h2>
+      <p>각 신비의 의미와 다섯 단의 묵상 내용을 살펴보세요.</p>
+    </div>
+    <div class="mystery-grid">
+      <a class="mystery-card joyful" href="joyful.html">
+        <span class="mystery-symbol" aria-hidden="true">🌹</span><h3>환희의 신비</h3>
+        <p>예수님의 탄생과 어린 시절을 성모님과 함께 묵상합니다.</p><span class="mystery-link">자세히 보기 →</span>
+      </a>
+      <article class="mystery-card coming"><span class="mystery-symbol" aria-hidden="true">✨</span><h3>빛의 신비</h3><p>예수님의 공생활과 하느님 나라의 빛을 묵상합니다.</p><span class="mystery-status">준비 중</span></article>
+      <article class="mystery-card coming"><span class="mystery-symbol" aria-hidden="true">✝️</span><h3>고통의 신비</h3><p>예수님의 수난과 십자가의 길을 묵상합니다.</p><span class="mystery-status">준비 중</span></article>
+      <article class="mystery-card coming"><span class="mystery-symbol" aria-hidden="true">👑</span><h3>영광의 신비</h3><p>예수님의 부활과 성모님의 영광을 묵상합니다.</p><span class="mystery-status">준비 중</span></article>
+    </div>
+  </section>
+
+  <div class="guide-cta"><a href="https://apps.apple.com/app/id6788407790" rel="noopener" target="_blank">With Mary로 기도 시작하기</a></div>
 </main>
-</body></html>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand-block"><a class="footer-brand" href="index.html"><img src="assets/icons/app-icon.png" alt="" aria-hidden="true"><span>With Mary</span></a><p>성모님과 함께하는 매일의 묵주기도.</p></div>
+    <div class="footer-links"><a href="guide.html">Guide</a><a href="support.html">Support</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms</a></div>
+  </div>
+  <div class="container footer-bottom"><span>© 2026 With Mary</span><span>Made with care for prayer.</span></div>
+</footer>
+</body>
+</html>
