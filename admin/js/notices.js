@@ -11,9 +11,12 @@ import { auth, db } from "./firebase.js";
 
 import {
     collection,
+    doc,
+    getDoc,
     getDocs,
     orderBy,
-    query
+    query,
+    setDoc
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 import { isAdminEmail } from "./common.js";
 
@@ -53,7 +56,20 @@ function formatTargets(targets) {
         return "대상 없음";
     }
 
-    return targets.join(" · ");
+    return targets.map((target) => {
+        if (typeof target !== "string") {
+            return target;
+        }
+
+        switch (target.toLowerCase()) {
+        case "app":
+            return "App";
+        case "web":
+            return "Web";
+        default:
+            return target;
+        }
+    }).join(" · ");
 }
 
 function formatUpdatedAt(updatedAt) {
@@ -76,6 +92,53 @@ function createMetaItem(text, extraClass = "") {
     element.className = `notice-meta-item ${extraClass}`.trim();
     element.textContent = text;
     return element;
+}
+
+// MARK: - 실제 서비스에 공지 게시
+async function publishNotice(documentId, publishButton) {
+    const shouldPublish = confirm("이 공지를 실제 서비스에 게시하시겠습니까?");
+
+    if (!shouldPublish) {
+        return;
+    }
+
+    const originalText = publishButton.textContent;
+    publishButton.disabled = true;
+    publishButton.textContent = "게시 중...";
+
+    try {
+        const developmentNoticeRef = doc(db, "dev_notices", documentId);
+        const developmentNoticeSnapshot = await getDoc(developmentNoticeRef);
+
+        if (!developmentNoticeSnapshot.exists()) {
+            throw new Error(`dev_notices/${documentId} 문서를 찾을 수 없습니다.`);
+        }
+
+        const developmentNotice = developmentNoticeSnapshot.data();
+
+        await setDoc(
+            doc(db, "notices", documentId),
+            {
+                title: developmentNotice.title,
+                body: developmentNotice.body,
+                targets: developmentNotice.targets,
+                isEnabled: developmentNotice.isEnabled,
+                updatedAt: developmentNotice.updatedAt,
+                version: developmentNotice.version
+            }
+        );
+
+        alert("게시되었습니다.");
+        await loadNotices();
+    } catch (error) {
+        // Firebase가 반환한 원본 오류를 숨기지 않고 그대로 출력합니다.
+        console.error(error);
+        console.error("Error Code:", error.code);
+        console.error("Error Message:", error.message);
+        alert(error.message);
+        publishButton.disabled = false;
+        publishButton.textContent = originalText;
+    }
 }
 
 function createNoticeCard(documentSnapshot) {
@@ -111,7 +174,24 @@ function createNoticeCard(documentSnapshot) {
         createMetaItem(formatUpdatedAt(notice.updatedAt), "notice-meta-date")
     );
 
-    article.append(header, body, meta);
+    const actions = document.createElement("div");
+    actions.className = "notice-card-actions";
+
+    const editLink = document.createElement("a");
+    editLink.className = "secondary-button notice-edit-button";
+    editLink.href = `notice.html?id=${encodeURIComponent(documentSnapshot.id)}`;
+    editLink.textContent = "수정";
+
+    const publishButton = document.createElement("button");
+    publishButton.className = "notice-publish-button";
+    publishButton.type = "button";
+    publishButton.textContent = "게시";
+    publishButton.addEventListener("click", () => {
+        publishNotice(documentSnapshot.id, publishButton);
+    });
+
+    actions.append(editLink, publishButton);
+    article.append(header, body, meta, actions);
     return article;
 }
 
