@@ -7,7 +7,14 @@ import {
     signOut
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
-import { auth } from "./firebase.js";
+import { auth, db } from "./firebase.js";
+
+import {
+    collection,
+    getDocs,
+    orderBy,
+    query
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 import { isAdminEmail } from "./common.js";
 
 // MARK: - 화면 요소
@@ -32,6 +39,22 @@ function showLoadingMessage(message) {
     adminContent.hidden = true;
 }
 
+
+// MARK: - 개발용 공지 조회
+async function loadNotices() {
+    const noticesQuery = query(
+        collection(db, "dev_notices"),
+        orderBy("version", "desc")
+    );
+
+    const snapshot = await getDocs(noticesQuery);
+
+    console.log("dev_notices 조회 완료:", snapshot.docs.map((document) => ({
+        id: document.id,
+        ...document.data()
+    })));
+}
+
 // MARK: - 로그인 및 관리자 권한 확인
 onAuthStateChanged(
     auth,
@@ -48,6 +71,12 @@ onAuthStateChanged(
         }
 
         showAdminContent(user);
+
+        try {
+            await loadNotices();
+        } catch (error) {
+            console.error("dev_notices 조회 실패:", error);
+        }
     },
     (error) => {
         console.error("관리자 인증 상태 확인 실패:", error);
