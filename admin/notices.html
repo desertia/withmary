@@ -35,10 +35,17 @@
                 <a class="primary-button button-link" href="notice.html">새 공지 작성</a>
             </div>
 
-            <section class="empty-card">
-                <div class="empty-icon">✦</div>
-                <h2>로그인 기능이 연결되었습니다</h2>
-                <p>다음 단계에서 Firestore 공지 목록을 이 화면에 불러옵니다.</p>
+            <section class="notice-section" aria-labelledby="noticeListHeading">
+                <div class="notice-section-heading">
+                    <div>
+                        <h2 id="noticeListHeading">공지 목록</h2>
+                        <p id="noticeCount">불러오는 중...</p>
+                    </div>
+                </div>
+
+                <div id="noticeList" class="notice-list" aria-live="polite">
+                    <div class="notice-list-message">공지 목록을 불러오고 있습니다...</div>
+                </div>
             </section>
         </main>
     </div>
