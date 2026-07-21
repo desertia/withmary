@@ -16,7 +16,9 @@ import {
     getDocs,
     orderBy,
     query,
-    setDoc
+    serverTimestamp,
+    setDoc,
+    updateDoc
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 import { isAdminEmail } from "./common.js";
 
@@ -141,6 +143,39 @@ async function publishNotice(documentId, publishButton) {
     }
 }
 
+// MARK: - 개발용 공지 활성 상태 변경
+async function toggleNoticeEnabled(documentId, currentIsEnabled, toggleButton) {
+    const nextIsEnabled = !currentIsEnabled;
+    const actionText = nextIsEnabled ? "활성화" : "비활성화";
+    const shouldUpdate = confirm(`이 공지를 ${actionText}하시겠습니까?`);
+
+    if (!shouldUpdate) {
+        return;
+    }
+
+    const originalText = toggleButton.textContent;
+    toggleButton.disabled = true;
+    toggleButton.textContent = "변경 중...";
+
+    try {
+        // updateDoc을 사용해 dev_notices의 지정된 두 필드만 변경합니다.
+        await updateDoc(
+            doc(db, "dev_notices", documentId),
+            {
+                isEnabled: nextIsEnabled,
+                updatedAt: serverTimestamp()
+            }
+        );
+
+        await loadNotices();
+    } catch (error) {
+        console.error("공지 활성 상태 변경 실패:", error);
+        alert(error.message || "상태 변경에 실패했습니다.");
+        toggleButton.disabled = false;
+        toggleButton.textContent = originalText;
+    }
+}
+
 function createNoticeCard(documentSnapshot) {
     const notice = documentSnapshot.data();
 
@@ -158,7 +193,7 @@ function createNoticeCard(documentSnapshot) {
     const status = document.createElement("span");
     const isEnabled = notice.isEnabled === true;
     status.className = `notice-status ${isEnabled ? "is-enabled" : "is-disabled"}`;
-    status.textContent = isEnabled ? "게시중" : "비활성";
+    status.textContent = isEnabled ? "활성" : "비활성";
 
     header.append(title, status);
 
@@ -182,6 +217,14 @@ function createNoticeCard(documentSnapshot) {
     editLink.href = `notice.html?id=${encodeURIComponent(documentSnapshot.id)}`;
     editLink.textContent = "수정";
 
+    const toggleButton = document.createElement("button");
+    toggleButton.className = "secondary-button notice-toggle-button";
+    toggleButton.type = "button";
+    toggleButton.textContent = isEnabled ? "비활성화" : "활성화";
+    toggleButton.addEventListener("click", () => {
+        toggleNoticeEnabled(documentSnapshot.id, isEnabled, toggleButton);
+    });
+
     const publishButton = document.createElement("button");
     publishButton.className = "notice-publish-button";
     publishButton.type = "button";
@@ -190,7 +233,7 @@ function createNoticeCard(documentSnapshot) {
         publishNotice(documentSnapshot.id, publishButton);
     });
 
-    actions.append(editLink, publishButton);
+    actions.append(editLink, toggleButton, publishButton);
     article.append(header, body, meta, actions);
     return article;
 }
