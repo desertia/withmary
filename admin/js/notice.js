@@ -34,7 +34,6 @@ const noticeForm = document.getElementById("noticeForm");
 const titleInput = document.getElementById("title");
 const bodyInput = document.getElementById("body");
 const targetInputs = [...document.querySelectorAll('input[name="targets"]')];
-const isEnabledInput = document.getElementById("isEnabled");
 const formError = document.getElementById("formError");
 const cancelButton = document.getElementById("cancelButton");
 const saveButton = document.getElementById("saveButton");
@@ -80,7 +79,6 @@ function setSaving(saving) {
     titleInput.disabled = saving;
     bodyInput.disabled = saving;
     targetInputs.forEach((input) => { input.disabled = saving; });
-    isEnabledInput.disabled = saving;
     saveButton.textContent = saving
         ? (isEditMode ? "수정 저장 중..." : "저장 중...")
         : (isEditMode ? "수정 저장" : "저장");
@@ -107,7 +105,6 @@ async function loadNoticeForEditing() {
         input.checked = savedTargets.includes(input.value);
     });
 
-    isEnabledInput.checked = notice.isEnabled === true;
     return true;
 }
 
@@ -170,14 +167,23 @@ noticeForm.addEventListener("submit", async (event) => {
         const noticeDocumentId = isEditMode ? documentId : String(version);
         const noticeDocument = doc(db, "dev_notices", noticeDocumentId);
 
-        await setDoc(noticeDocument, {
+        const noticeData = {
             title,
             body,
             targets,
-            isEnabled: isEnabledInput.checked,
             updatedAt: serverTimestamp(),
             version
-        });
+        };
+
+        if (isEditMode) {
+            // 수정 시 기존 isEnabled 필드는 변경하지 않습니다.
+            await setDoc(noticeDocument, noticeData, { merge: true });
+        } else {
+            await setDoc(noticeDocument, {
+                ...noticeData,
+                isEnabled: true
+            });
+        }
 
         alert(isEditMode ? "수정되었습니다." : "저장되었습니다.");
         window.location.replace("notices.html");

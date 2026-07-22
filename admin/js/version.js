@@ -355,16 +355,14 @@ function openPublishModal() {
     confirmPublishButton.disabled = noChanges;
 
     publishModal.hidden = false;
-    publishModal.removeAttribute("aria-hidden");
     document.body.classList.add("has-version-modal");
     cancelPublishButton.focus();
 }
 
-function closePublishModal(force = false) {
-    if (isWorking && !force) return;
+function closePublishModal() {
+    if (isWorking) return;
 
     publishModal.hidden = true;
-    publishModal.setAttribute("aria-hidden", "true");
     document.body.classList.remove("has-version-modal");
     publishButton.focus();
 }
@@ -430,7 +428,7 @@ confirmPublishButton.addEventListener("click", async () => {
 
         // 게시 완료 상태를 먼저 반영한 뒤 모달을 닫고 완료 알림을 표시합니다.
         setWorking(false);
-        closePublishModal(true);
+        closePublishModal();
         showToast("운영 버전이 게시되었습니다.");
     } catch (error) {
         console.error("운영 버전 게시 실패:", error);
