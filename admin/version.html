@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- MARK: 기본 설정 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>버전 관리 | With Mary Admin</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="admin-page">
+    <!-- MARK: 인증 확인 중 화면 -->
+    <div id="pageLoading" class="page-loading" role="status">관리자 권한을 확인하고 있습니다...</div>
+
+    <!-- MARK: 관리자 화면 -->
+    <div id="adminContent" class="admin-shell" hidden>
+        <header class="admin-header">
+            <div class="admin-brand-group">
+                <div class="admin-brand">
+                    <img src="../assets/brand/logo.png" alt="With Mary">
+                    <span>Admin</span>
+                </div>
+                <nav class="admin-nav" aria-label="관리 메뉴">
+                    <a href="notices.html">공지 관리</a>
+                    <a class="is-active" href="version.html" aria-current="page">버전 관리</a>
+                </nav>
+            </div>
+
+            <div class="admin-account">
+                <span id="adminEmail"></span>
+                <button id="logoutButton" class="secondary-button" type="button">로그아웃</button>
+            </div>
+        </header>
+
+        <main class="admin-main version-main">
+            <div class="page-heading">
+                <div>
+                    <p class="eyebrow">WITH MARY ADMIN</p>
+                    <h1>버전 관리</h1>
+                    <p>iOS 앱의 운영 버전과 초안 버전을 관리합니다.</p>
+                </div>
+            </div>
+
+            <div id="versionMessage" class="version-message" role="status" aria-live="polite"></div>
+
+            <div class="version-grid">
+                <!-- MARK: 운영 버전 -->
+                <section class="version-card version-live" aria-labelledby="liveHeading">
+                    <div class="version-card-heading">
+                        <div>
+                            <span class="version-badge live-badge">LIVE</span>
+                            <h2 id="liveHeading">운영 버전</h2>
+                        </div>
+                        <p id="liveUpdatedAt">수정일 없음</p>
+                    </div>
+
+                    <dl class="version-readonly-list">
+                        <div>
+                            <dt>최신 버전</dt>
+                            <dd id="liveLatestVersion">-</dd>
+                        </div>
+                        <div>
+                            <dt>최소 지원 버전</dt>
+                            <dd id="liveMinimumVersion">-</dd>
+                        </div>
+                        <div class="version-full-row">
+                            <dt>제목</dt>
+                            <dd id="liveTitle">-</dd>
+                        </div>
+                        <div class="version-full-row">
+                            <dt>메시지</dt>
+                            <dd id="liveMessage">-</dd>
+                        </div>
+                    </dl>
+                </section>
+
+                <!-- MARK: 초안 버전 -->
+                <section class="version-card version-draft" aria-labelledby="draftHeading">
+                    <div class="version-card-heading">
+                        <div>
+                            <span class="version-badge draft-badge">DRAFT</span>
+                            <h2 id="draftHeading">초안 버전</h2>
+                        </div>
+                        <p id="draftUpdatedAt">수정일 없음</p>
+                    </div>
+
+                    <form id="versionForm" class="version-form">
+                        <div class="version-form-row">
+                            <div class="form-field">
+                                <label for="latestVersion">최신 버전</label>
+                                <input id="latestVersion" name="latestVersion" type="text" inputmode="decimal" placeholder="예: 1.0.2" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="minimumVersion">최소 지원 버전</label>
+                                <input id="minimumVersion" name="minimumVersion" type="text" inputmode="decimal" placeholder="예: 1.0.0" required>
+                            </div>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="versionTitle">제목</label>
+                            <input id="versionTitle" name="title" type="text" maxlength="120" placeholder="예: 업데이트가 필요합니다" required>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="versionBody">메시지</label>
+                            <textarea id="versionBody" name="message" rows="7" placeholder="사용자에게 표시할 안내 문구를 입력해 주세요." required></textarea>
+                        </div>
+
+                        <p id="saveState" class="version-save-state is-saved" role="status" aria-live="polite">
+                            <span aria-hidden="true">✓</span>
+                            모든 변경사항 저장됨
+                        </p>
+
+                        <p id="formError" class="form-error" role="alert" aria-live="polite"></p>
+
+                        <div class="version-actions">
+                            <button id="saveDraftButton" class="secondary-button version-action-button" type="submit">초안 저장</button>
+                            <button id="publishButton" class="primary-button version-action-button" type="button">게시</button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- MARK: 운영 버전 게시 확인 모달 -->
+    <div id="publishModal" class="version-modal" role="dialog" aria-modal="true" aria-labelledby="publishModalTitle" hidden>
+        <div class="version-modal-backdrop" data-modal-close></div>
+        <section class="version-modal-content">
+            <div class="version-modal-heading">
+                <span class="version-modal-icon" aria-hidden="true">↑</span>
+                <div>
+                    <h2 id="publishModalTitle">운영 버전으로 게시하시겠습니까?</h2>
+                    <p>게시 후에는 모든 사용자에게 즉시 적용됩니다.</p>
+                </div>
+            </div>
+
+            <div class="version-change-list">
+                <div class="version-change-row">
+                    <span>Latest Version</span>
+                    <div>
+                        <span class="version-change-value">
+                            <small>기존 Live</small>
+                            <strong id="modalLiveLatestVersion">-</strong>
+                        </span>
+                        <span aria-hidden="true">→</span>
+                        <span class="version-change-value">
+                            <small>Draft</small>
+                            <strong id="modalDraftLatestVersion">-</strong>
+                        </span>
+                    </div>
+                </div>
+                <div class="version-change-row">
+                    <span>Minimum Version</span>
+                    <div>
+                        <span class="version-change-value">
+                            <small>기존 Live</small>
+                            <strong id="modalLiveMinimumVersion">-</strong>
+                        </span>
+                        <span aria-hidden="true">→</span>
+                        <span class="version-change-value">
+                            <small>Draft</small>
+                            <strong id="modalDraftMinimumVersion">-</strong>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <p id="modalNoChanges" class="version-modal-no-changes" hidden>변경 사항이 없습니다.</p>
+
+            <div class="version-modal-actions">
+                <button id="cancelPublishButton" class="secondary-button" type="button">취소</button>
+                <button id="confirmPublishButton" class="primary-button" type="button">게시</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- MARK: 게시 완료 알림 -->
+    <div id="versionToast" class="version-toast" role="status" aria-live="polite" hidden></div>
+
+    <!-- MARK: 버전 관리 및 관리자 인증 모듈 -->
+    <script type="module" src="js/version.js"></script>
+</body>
+</html>
