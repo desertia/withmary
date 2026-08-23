@@ -18,6 +18,15 @@ GitHub Pages에서 바로 사용할 수 있는 정적 홈페이지입니다.
 ## GitHub Pages
 저장소의 Settings → Pages → Deploy from a branch → main / root를 선택합니다.
 
+## 다국어 공용 리소스 경로
+향후 `/en/`, `/fr/`, `/it/` 아래에 언어별 페이지를 추가할 때 공용 리소스는 사이트 루트 기준 절대경로를 사용합니다.
+
+- CSS: `/css/style.css`
+- JavaScript: `/js/main.js`
+- 이미지 및 아이콘: `/assets/...`
+
+기존 루트 한국어 페이지의 상대경로는 현재 동작을 유지하기 위해 그대로 둡니다.
+
 ## Sprint 8
 - Hero 타이포그래피와 여백 조정
 - 3중 앱 화면 스테이지 적용
