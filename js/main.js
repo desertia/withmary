@@ -1,3 +1,34 @@
+const languagePreferenceKey='preferredLanguage';
+const languageRoutes={ko:'/',en:'/en/'};
+const defaultLanguage='en';
+const isSupportedLanguage=language=>Object.prototype.hasOwnProperty.call(languageRoutes,language);
+
+const readLanguagePreference=()=>{
+  try{
+    const language=localStorage.getItem(languagePreferenceKey);
+    return isSupportedLanguage(language)?language:null;
+  }catch{return null}
+};
+
+const saveLanguagePreference=language=>{
+  if(!isSupportedLanguage(language))return;
+  try{localStorage.setItem(languagePreferenceKey,language)}catch{}
+};
+
+const detectBrowserLanguage=()=>{
+  const primaryLanguage=(navigator.languages?.[0]||navigator.language||'').toLowerCase().split('-')[0];
+  return isSupportedLanguage(primaryLanguage)?primaryLanguage:defaultLanguage;
+};
+
+document.querySelectorAll('.language-switcher a[hreflang]').forEach(link=>{
+  link.addEventListener('click',()=>saveLanguagePreference(link.hreflang));
+});
+
+if(location.pathname==='/'){
+  const preferredLanguage=readLanguagePreference()||detectBrowserLanguage();
+  if(preferredLanguage!=='ko')location.replace(languageRoutes[preferredLanguage]);
+}
+
 const header=document.querySelector('.site-header');
 const revealItems=document.querySelectorAll('.reveal');
 const updateHeader=()=>header?.classList.toggle('scrolled',window.scrollY>18);
