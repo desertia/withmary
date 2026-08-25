@@ -16,6 +16,13 @@ import {
 
 import { auth, db } from "./firebase.js";
 import { isAdminEmail } from "./common.js";
+import {
+    collectLocalizations,
+    findIncompleteLocalization,
+    getComparableLocalizations,
+    populateLocalizationEditor,
+    setupLocalizationEditor
+} from "./content-localizations.js";
 
 // MARK: - Firestore 문서 경로
 const LIVE_COLLECTION = "appConfig";
@@ -41,6 +48,32 @@ const latestVersionInput = document.getElementById("latestVersion");
 const minimumVersionInput = document.getElementById("minimumVersion");
 const titleInput = document.getElementById("versionTitle");
 const messageInput = document.getElementById("versionBody");
+const localizationEditor = setupLocalizationEditor(
+    document.getElementById("versionLocalizationEditor"),
+    {
+        prefix: "version",
+        fields: [
+            {
+                name: "title",
+                type: "input",
+                maxLength: 120,
+                placeholders: {
+                    en: "Enter the update title.",
+                    fr: "Saisissez le titre de la mise à jour."
+                }
+            },
+            {
+                name: "message",
+                type: "textarea",
+                rows: 7,
+                placeholders: {
+                    en: "Enter the message shown to users.",
+                    fr: "Saisissez le message affiché aux utilisateurs."
+                }
+            }
+        ]
+    }
+);
 const saveState = document.getElementById("saveState");
 const formError = document.getElementById("formError");
 const saveDraftButton = document.getElementById("saveDraftButton");
@@ -56,7 +89,7 @@ const modalDraftMinimumVersion = document.getElementById("modalDraftMinimumVersi
 const modalNoChanges = document.getElementById("modalNoChanges");
 const versionToast = document.getElementById("versionToast");
 
-const draftInputs = [latestVersionInput, minimumVersionInput, titleInput, messageInput];
+const draftInputs = [latestVersionInput, minimumVersionInput, ...localizationEditor.inputs];
 
 let liveConfig = null;
 let savedDraftConfig = null;
@@ -149,16 +182,23 @@ function getComparableConfig(config) {
         latestVersion: config?.latestVersion ?? "",
         minimumVersion: config?.minimumVersion ?? "",
         title: config?.title ?? "",
-        message: config?.message ?? ""
+        message: config?.message ?? "",
+        localizations: getComparableLocalizations(config, ["title", "message"])
     };
 }
 
 function getInputConfig() {
+    const sourceConfig = draftDocumentExists ? savedDraftConfig : liveConfig;
+
     return {
         latestVersion: latestVersionInput.value,
         minimumVersion: minimumVersionInput.value,
         title: titleInput.value,
-        message: messageInput.value
+        message: messageInput.value,
+        localizations: collectLocalizations(
+            localizationEditor,
+            sourceConfig?.localizations
+        )
     };
 }
 
@@ -166,7 +206,7 @@ function configsEqual(left, right) {
     const leftConfig = getComparableConfig(left);
     const rightConfig = getComparableConfig(right);
 
-    return Object.keys(leftConfig).every((key) => leftConfig[key] === rightConfig[key]);
+    return JSON.stringify(leftConfig) === JSON.stringify(rightConfig);
 }
 
 function hasUnsavedChanges() {
@@ -256,7 +296,22 @@ function getValidatedDraft() {
         return null;
     }
 
-    return { latestVersion, minimumVersion, title, message };
+    const incompleteLocalization = findIncompleteLocalization(localizationEditor);
+    if (incompleteLocalization) {
+        const { language, missingInput } = incompleteLocalization;
+        formError.textContent = `${language.name} 번역은 제목과 메시지를 모두 입력하거나 모두 비워 주세요.`;
+        localizationEditor.activate(language.code);
+        missingInput.focus();
+        return null;
+    }
+
+    const sourceConfig = draftDocumentExists ? savedDraftConfig : liveConfig;
+    const localizations = collectLocalizations(
+        localizationEditor,
+        sourceConfig?.localizations
+    );
+
+    return { latestVersion, minimumVersion, title, message, localizations };
 }
 
 // MARK: - 데이터 표시
@@ -271,8 +326,7 @@ function renderLive(data) {
 function renderDraft(data) {
     latestVersionInput.value = data?.latestVersion ?? "";
     minimumVersionInput.value = data?.minimumVersion ?? "";
-    titleInput.value = data?.title ?? "";
-    messageInput.value = data?.message ?? "";
+    populateLocalizationEditor(localizationEditor, data);
     draftUpdatedAt.textContent = formatUpdatedAt(data?.updatedAt);
 }
 

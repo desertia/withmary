@@ -36,7 +36,7 @@
                 <div>
                     <p class="eyebrow">WITH MARY ADMIN</p>
                     <h1 id="pageTitle">새 공지 작성</h1>
-                    <p id="pageDescription">앱과 웹사이트에 표시할 공지를 작성합니다.</p>
+                    <p id="pageDescription">앱에 표시할 공지를 작성합니다.</p>
                 </div>
             </div>
 
@@ -49,29 +49,30 @@
                 </div>
 
                 <form id="noticeForm" class="notice-form">
-                    <div class="form-field">
-                        <label for="title">제목</label>
-                        <input id="title" name="title" type="text" maxlength="200" placeholder="공지 제목을 입력해 주세요." required>
-                    </div>
+                    <div id="noticeLocalizationEditor" class="localization-editor">
+                        <div class="localization-tabs" data-localization-tabs role="tablist" aria-label="공지 언어 선택">
+                            <button class="localization-tab is-active" data-locale-tab="ko" type="button" role="tab" aria-selected="true" aria-controls="notice-ko-panel">한국어</button>
+                        </div>
 
-                    <div class="form-field">
-                        <label for="body">내용</label>
-                        <textarea id="body" name="body" rows="10" placeholder="공지 내용을 입력해 주세요." required></textarea>
+                        <div class="localization-panels" data-localization-panels>
+                            <section id="notice-ko-panel" class="localization-panel" data-locale-panel="ko" role="tabpanel" aria-label="한국어">
+                                <div class="form-field">
+                                    <label for="title">제목</label>
+                                    <input id="title" name="title" data-localized-field="title" type="text" maxlength="200" placeholder="공지 제목을 입력해 주세요." required>
+                                </div>
+
+                                <div class="form-field">
+                                    <label for="body">본문</label>
+                                    <textarea id="body" name="body" data-localized-field="body" rows="10" placeholder="공지 내용을 입력해 주세요." required></textarea>
+                                </div>
+                            </section>
+                        </div>
                     </div>
 
                     <fieldset class="form-field form-fieldset">
-                        <legend>대상</legend>
+                        <legend>노출 언어</legend>
                         <p class="field-description">하나 이상 선택해 주세요.</p>
-                        <div class="option-group">
-                            <label class="check-option" for="targetApp">
-                                <input id="targetApp" name="targets" type="checkbox" value="App">
-                                <span>App</span>
-                            </label>
-                            <label class="check-option" for="targetWeb">
-                                <input id="targetWeb" name="targets" type="checkbox" value="Web">
-                                <span>Web</span>
-                            </label>
-                        </div>
+                        <div id="targetLanguageOptions" class="option-group"></div>
                     </fieldset>
 
                     <p id="formError" class="form-error" role="alert" aria-live="polite"></p>

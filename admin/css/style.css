@@ -164,6 +164,39 @@ button:disabled { cursor: not-allowed; opacity: .65; }
     border-color: var(--wm-primary);
     box-shadow: 0 0 0 4px rgba(90,135,232,.13);
 }
+.localization-editor {
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid var(--wm-border);
+    border-radius: 18px;
+    background: #fbfcfe;
+}
+.localization-tabs {
+    display: flex;
+    gap: 6px;
+    padding: 8px;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--wm-border);
+    background: #f5f7fb;
+}
+.localization-tab {
+    flex: 0 0 auto;
+    min-height: 38px;
+    padding: 0 14px;
+    color: var(--wm-subtext);
+    background: transparent;
+    border: 0;
+    border-radius: 11px;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.localization-tab:hover { color: var(--wm-text); background: #fff; }
+.localization-tab.is-active { color: var(--wm-primary-hover); background: #fff; box-shadow: 0 2px 8px rgba(45,57,85,.08); }
+.localization-tab:focus-visible { outline: 3px solid rgba(90,135,232,.2); outline-offset: 1px; }
+.localization-panel { display: grid; gap: 20px; padding: 22px; }
+.localization-panel[hidden] { display: none; }
 .form-fieldset { min-width: 0; border: 0; }
 .field-description { margin-top: -4px; color: var(--wm-subtext); font-size: 12px; line-height: 1.55; }
 .option-group { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 13px; }
@@ -226,6 +259,7 @@ button:disabled { cursor: not-allowed; opacity: .65; }
 
 @media (max-width: 680px) {
     .notice-form-section { padding: 22px 20px; }
+    .localization-panel { padding: 18px; }
     .form-actions { flex-direction: column-reverse; }
     .action-button { width: 100%; }
 }

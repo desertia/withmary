@@ -21,6 +21,7 @@ import {
     updateDoc
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 import { isAdminEmail } from "./common.js";
+import { CONTENT_LANGUAGES, normalizeTargetLanguages } from "./content-localizations.js";
 
 // MARK: - 화면 요소
 const pageLoading = document.getElementById("pageLoading");
@@ -53,25 +54,11 @@ function showNoticeMessage(message) {
 }
 
 // MARK: - 공지 표시용 변환
-function formatTargets(targets) {
-    if (!Array.isArray(targets) || targets.length === 0) {
-        return "대상 없음";
-    }
-
-    return targets.map((target) => {
-        if (typeof target !== "string") {
-            return target;
-        }
-
-        switch (target.toLowerCase()) {
-        case "app":
-            return "App";
-        case "web":
-            return "Web";
-        default:
-            return target;
-        }
-    }).join(" · ");
+function formatTargetLanguages(targetLanguages) {
+    const languageNames = new Map(CONTENT_LANGUAGES.map(({ code, name }) => [code, name]));
+    return normalizeTargetLanguages(targetLanguages)
+        .map((languageCode) => languageNames.get(languageCode) ?? languageCode)
+        .join(" · ");
 }
 
 function formatUpdatedAt(updatedAt) {
@@ -118,17 +105,20 @@ async function publishNotice(documentId, publishButton) {
 
         const developmentNotice = developmentNoticeSnapshot.data();
 
-        await setDoc(
-            doc(db, "notices", documentId),
-            {
-                title: developmentNotice.title,
-                body: developmentNotice.body,
-                targets: developmentNotice.targets,
-                isEnabled: developmentNotice.isEnabled,
-                updatedAt: developmentNotice.updatedAt,
-                version: developmentNotice.version
-            }
-        );
+        const publishedNotice = {
+            title: developmentNotice.title,
+            body: developmentNotice.body,
+            targetLanguages: normalizeTargetLanguages(developmentNotice.targetLanguages),
+            isEnabled: developmentNotice.isEnabled,
+            updatedAt: developmentNotice.updatedAt,
+            version: developmentNotice.version
+        };
+
+        if (developmentNotice.localizations && typeof developmentNotice.localizations === "object") {
+            publishedNotice.localizations = developmentNotice.localizations;
+        }
+
+        await setDoc(doc(db, "notices", documentId), publishedNotice);
 
         alert("게시되었습니다.");
         await loadNotices();
@@ -204,7 +194,7 @@ function createNoticeCard(documentSnapshot) {
     const meta = document.createElement("div");
     meta.className = "notice-meta";
     meta.append(
-        createMetaItem(formatTargets(notice.targets)),
+        createMetaItem(formatTargetLanguages(notice.targetLanguages)),
         createMetaItem(`v${notice.version ?? "-"}`),
         createMetaItem(formatUpdatedAt(notice.updatedAt), "notice-meta-date")
     );

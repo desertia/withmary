@@ -95,14 +95,24 @@
                             </div>
                         </div>
 
-                        <div class="form-field">
-                            <label for="versionTitle">제목</label>
-                            <input id="versionTitle" name="title" type="text" maxlength="120" placeholder="예: 업데이트가 필요합니다" required>
-                        </div>
+                        <div id="versionLocalizationEditor" class="localization-editor">
+                            <div class="localization-tabs" data-localization-tabs role="tablist" aria-label="버전 공지 언어 선택">
+                                <button class="localization-tab is-active" data-locale-tab="ko" type="button" role="tab" aria-selected="true" aria-controls="version-ko-panel">한국어</button>
+                            </div>
 
-                        <div class="form-field">
-                            <label for="versionBody">메시지</label>
-                            <textarea id="versionBody" name="message" rows="7" placeholder="사용자에게 표시할 안내 문구를 입력해 주세요." required></textarea>
+                            <div class="localization-panels" data-localization-panels>
+                                <section id="version-ko-panel" class="localization-panel" data-locale-panel="ko" role="tabpanel" aria-label="한국어">
+                                    <div class="form-field">
+                                        <label for="versionTitle">제목</label>
+                                        <input id="versionTitle" name="title" data-localized-field="title" type="text" maxlength="120" placeholder="예: 업데이트가 필요합니다" required>
+                                    </div>
+
+                                    <div class="form-field">
+                                        <label for="versionBody">메시지</label>
+                                        <textarea id="versionBody" name="message" data-localized-field="message" rows="7" placeholder="사용자에게 표시할 안내 문구를 입력해 주세요." required></textarea>
+                                    </div>
+                                </section>
+                            </div>
                         </div>
 
                         <p id="saveState" class="version-save-state is-saved" role="status" aria-live="polite">

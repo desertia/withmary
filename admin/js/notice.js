@@ -9,6 +9,7 @@ import {
 
 import {
     collection,
+    deleteField,
     doc,
     getDoc,
     getDocs,
@@ -16,11 +17,21 @@ import {
     orderBy,
     query,
     serverTimestamp,
-    setDoc
+    setDoc,
+    updateDoc
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
 import { auth, db } from "./firebase.js";
 import { isAdminEmail } from "./common.js";
+import {
+    collectLocalizations,
+    CONTENT_LANGUAGES,
+    findIncompleteLocalization,
+    findMissingTargetLanguageContent,
+    populateLocalizationEditor,
+    setupLocalizationEditor,
+    setupTargetLanguageSelector
+} from "./content-localizations.js";
 
 // MARK: - 화면 요소
 const pageLoading = document.getElementById("pageLoading");
@@ -33,7 +44,36 @@ const pageDescription = document.getElementById("pageDescription");
 const noticeForm = document.getElementById("noticeForm");
 const titleInput = document.getElementById("title");
 const bodyInput = document.getElementById("body");
-const targetInputs = [...document.querySelectorAll('input[name="targets"]')];
+const localizationEditor = setupLocalizationEditor(
+    document.getElementById("noticeLocalizationEditor"),
+    {
+        prefix: "notice",
+        fields: [
+            {
+                name: "title",
+                type: "input",
+                maxLength: 200,
+                placeholders: {
+                    en: "Enter the notice title.",
+                    fr: "Saisissez le titre de l’avis."
+                }
+            },
+            {
+                name: "body",
+                type: "textarea",
+                rows: 10,
+                placeholders: {
+                    en: "Enter the notice content.",
+                    fr: "Saisissez le contenu de l’avis."
+                }
+            }
+        ]
+    }
+);
+const targetLanguageSelector = setupTargetLanguageSelector(
+    document.getElementById("targetLanguageOptions")
+);
+targetLanguageSelector.setSelected(null);
 const formError = document.getElementById("formError");
 const cancelButton = document.getElementById("cancelButton");
 const saveButton = document.getElementById("saveButton");
@@ -76,9 +116,8 @@ function setSaving(saving) {
     isSaving = saving;
     saveButton.disabled = saving;
     cancelButton.disabled = saving;
-    titleInput.disabled = saving;
-    bodyInput.disabled = saving;
-    targetInputs.forEach((input) => { input.disabled = saving; });
+    localizationEditor.inputs.forEach((input) => { input.disabled = saving; });
+    targetLanguageSelector.inputs.forEach((input) => { input.disabled = saving; });
     saveButton.textContent = saving
         ? (isEditMode ? "수정 저장 중..." : "저장 중...")
         : (isEditMode ? "수정 저장" : "저장");
@@ -97,13 +136,9 @@ async function loadNoticeForEditing() {
     const notice = noticeSnapshot.data();
     existingVersion = notice.version;
 
-    titleInput.value = typeof notice.title === "string" ? notice.title : "";
-    bodyInput.value = typeof notice.body === "string" ? notice.body : "";
+    populateLocalizationEditor(localizationEditor, notice);
 
-    const savedTargets = Array.isArray(notice.targets) ? notice.targets : [];
-    targetInputs.forEach((input) => {
-        input.checked = savedTargets.includes(input.value);
-    });
+    targetLanguageSelector.setSelected(notice.targetLanguages);
 
     return true;
 }
@@ -136,9 +171,7 @@ noticeForm.addEventListener("submit", async (event) => {
 
     const title = titleInput.value.trim();
     const body = bodyInput.value.trim();
-    const targets = targetInputs
-        .filter((input) => input.checked)
-        .map((input) => input.value);
+    const targetLanguages = targetLanguageSelector.selectedCodes();
 
     showFormError("");
 
@@ -154,9 +187,30 @@ noticeForm.addEventListener("submit", async (event) => {
         return;
     }
 
-    if (targets.length === 0) {
-        showFormError("대상을 하나 이상 선택해 주세요.");
-        targetInputs[0].focus();
+    const incompleteLocalization = findIncompleteLocalization(localizationEditor);
+    if (incompleteLocalization) {
+        const { language, missingInput } = incompleteLocalization;
+        showFormError(`${language.name} 번역은 제목과 본문을 모두 입력하거나 모두 비워 주세요.`);
+        localizationEditor.activate(language.code);
+        missingInput.focus();
+        return;
+    }
+
+    if (targetLanguages.length === 0) {
+        showFormError("노출 언어를 하나 이상 선택해 주세요.");
+        targetLanguageSelector.inputs[0].focus();
+        return;
+    }
+
+    const missingTargetContent = findMissingTargetLanguageContent(
+        localizationEditor,
+        targetLanguages
+    );
+    if (missingTargetContent) {
+        const { language, missingInput } = missingTargetContent;
+        showFormError(`${language.name} 노출을 선택하려면 제목과 본문을 모두 입력해 주세요.`);
+        localizationEditor.activate(language.code);
+        missingInput.focus();
         return;
     }
 
@@ -166,18 +220,33 @@ noticeForm.addEventListener("submit", async (event) => {
         const version = isEditMode ? existingVersion : await getNextVersion();
         const noticeDocumentId = isEditMode ? documentId : String(version);
         const noticeDocument = doc(db, "dev_notices", noticeDocumentId);
+        const localizations = collectLocalizations(localizationEditor);
 
         const noticeData = {
             title,
             body,
-            targets,
+            targetLanguages,
+            localizations,
             updatedAt: serverTimestamp(),
             version
         };
 
         if (isEditMode) {
             // 수정 시 기존 isEnabled 필드는 변경하지 않습니다.
-            await setDoc(noticeDocument, noticeData, { merge: true });
+            const localizationUpdates = {};
+            CONTENT_LANGUAGES.forEach((language) => {
+                localizationUpdates[`localizations.${language.code}`] =
+                    localizations[language.code] ?? deleteField();
+            });
+
+            await updateDoc(noticeDocument, {
+                title,
+                body,
+                targetLanguages,
+                updatedAt: noticeData.updatedAt,
+                version,
+                ...localizationUpdates
+            });
         } else {
             await setDoc(noticeDocument, {
                 ...noticeData,
