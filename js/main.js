@@ -1,5 +1,5 @@
 const languagePreferenceKey='preferredLanguage';
-const languageRoutes={ko:'/',en:'/en/'};
+const languageRoutes={ko:'/',en:'/en/',fr:'/fr/'};
 const isSupportedLanguage=language=>Object.prototype.hasOwnProperty.call(languageRoutes,language);
 
 const saveLanguagePreference=language=>{
