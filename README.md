@@ -5,8 +5,15 @@ GitHub Pages에서 바로 사용할 수 있는 정적 홈페이지입니다.
 ## 확인 방법
 `index.html`을 브라우저에서 열어 확인합니다.
 
-## 실제 이미지 교체
-`assets/screenshots/screenshot-1.svg`부터 `screenshot-5.svg`까지를 실제 App Store 스크린샷으로 교체할 수 있습니다. PNG로 바꿀 경우 `index.html`의 파일 확장자도 함께 수정합니다.
+## 스크린샷 자산 구조
+스크린샷은 `assets/screenshots/{language}/` 아래에서 언어별 `ko`, `en`, `fr` 구조를 사용합니다.
+
+- `iphone/original`: iPhone 원본 스크린샷
+- `iphone/promo`: iPhone 프로모션용 스크린샷
+- `watch/original`: Apple Watch 원본 스크린샷(App Store Connect 보관용 자산 포함 가능)
+- `watch/promo`: Apple Watch 프로모션용 스크린샷
+
+웹에서 현재 사용하지 않는 `original` 또는 `promo` 파일도 App Store Connect나 디자인 작업용 보관 자산일 수 있습니다.
 
 ## 출시 전에 교체할 항목
 - App Store 링크
