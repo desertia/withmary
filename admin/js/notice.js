@@ -55,7 +55,8 @@ const localizationEditor = setupLocalizationEditor(
                 maxLength: 200,
                 placeholders: {
                     en: "Enter the notice title.",
-                    fr: "Saisissez le titre de l’avis."
+                    fr: "Saisissez le titre de l’avis.",
+                    es: "Introduce el título del aviso."
                 }
             },
             {
@@ -64,7 +65,8 @@ const localizationEditor = setupLocalizationEditor(
                 rows: 10,
                 placeholders: {
                     en: "Enter the notice content.",
-                    fr: "Saisissez le contenu de l’avis."
+                    fr: "Saisissez le contenu de l’avis.",
+                    es: "Introduce el contenido del aviso."
                 }
             }
         ]

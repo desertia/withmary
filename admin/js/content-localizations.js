@@ -17,6 +17,11 @@ export const CONTENT_LANGUAGES = Object.freeze([
         code: "fr",
         name: "Français",
         labels: { title: "Titre", body: "Contenu", message: "Message" }
+    },
+    {
+        code: "es",
+        name: "Español",
+        labels: { title: "Título", body: "Contenido", message: "Mensaje" }
     }
 ]);
 

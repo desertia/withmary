@@ -59,7 +59,8 @@ const localizationEditor = setupLocalizationEditor(
                 maxLength: 120,
                 placeholders: {
                     en: "Enter the update title.",
-                    fr: "Saisissez le titre de la mise à jour."
+                    fr: "Saisissez le titre de la mise à jour.",
+                    es: "Introduce el título de la actualización."
                 }
             },
             {
@@ -68,7 +69,8 @@ const localizationEditor = setupLocalizationEditor(
                 rows: 7,
                 placeholders: {
                     en: "Enter the message shown to users.",
-                    fr: "Saisissez le message affiché aux utilisateurs."
+                    fr: "Saisissez le message affiché aux utilisateurs.",
+                    es: "Introduce el mensaje que se mostrará a los usuarios."
                 }
             }
         ]
