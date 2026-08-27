@@ -436,6 +436,92 @@
   .language-dropdown-menu .language-option{padding:8px 10px}
 }
 
+/* Browser-language suggestion on Korean public pages */
+body.language-suggestion-visible{padding-top:52px}
+body.language-suggestion-standalone{padding-top:0}
+.language-suggestion-banner{
+  position:absolute;
+  inset:78px 0 auto;
+  z-index:90;
+  min-height:52px;
+  border-bottom:1px solid rgba(117,103,255,.12);
+  background:#f7f5ff;
+  color:#504b61;
+}
+.language-suggestion-banner--standalone{
+  position:relative;
+  inset:auto;
+}
+.language-suggestion-inner{
+  min-height:52px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:18px;
+  padding-block:9px;
+}
+.language-suggestion-inner p{
+  margin:0;
+  font-size:13px;
+  line-height:1.45;
+}
+.language-suggestion-actions{
+  display:flex;
+  align-items:center;
+  flex:0 0 auto;
+  gap:8px;
+}
+.language-suggestion-link{
+  display:inline-flex;
+  align-items:center;
+  min-height:32px;
+  padding:7px 12px;
+  border:1px solid rgba(117,103,255,.20);
+  border-radius:999px;
+  background:#fff;
+  color:var(--purple);
+  font-size:12px;
+  font-weight:750;
+  white-space:nowrap;
+}
+.language-suggestion-link:hover{background:#f0edff}
+.language-suggestion-link:focus-visible,
+.language-suggestion-close:focus-visible{
+  outline:2px solid var(--purple);
+  outline-offset:2px;
+}
+.language-suggestion-close{
+  width:30px;
+  height:30px;
+  display:grid;
+  place-items:center;
+  padding:0;
+  border:0;
+  border-radius:50%;
+  background:transparent;
+  color:#777181;
+  font-size:20px;
+  line-height:1;
+  cursor:pointer;
+}
+.language-suggestion-close:hover{background:rgba(117,103,255,.08);color:var(--purple)}
+@media(max-width:620px){
+  body.language-suggestion-visible{padding-top:68px}
+  body.language-suggestion-standalone{padding-top:0}
+  .language-suggestion-banner{inset:64px 0 auto;min-height:68px}
+  .language-suggestion-banner--standalone{inset:auto}
+  .language-suggestion-inner{
+    min-height:68px;
+    justify-content:space-between;
+    gap:10px;
+    padding-block:8px;
+  }
+  .language-suggestion-inner p{font-size:12px}
+  .language-suggestion-actions{gap:4px}
+  .language-suggestion-link{min-height:30px;padding:6px 9px;font-size:11px}
+  .language-suggestion-close{width:28px;height:28px}
+}
+
 /* Visible official app icon in the main hero */
 .hero-app-icon{
   display:block;

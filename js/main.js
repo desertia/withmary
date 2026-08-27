@@ -1,10 +1,95 @@
 const languagePreferenceKey='preferredLanguage';
 const languageRoutes={ko:'/',en:'/en/',fr:'/fr/',es:'/es/'};
 const isSupportedLanguage=language=>Object.prototype.hasOwnProperty.call(languageRoutes,language);
+const languageSuggestionDismissedKey='languageSuggestionDismissed';
+const koreanPagePaths=new Set([
+  '/',
+  '/index.html',
+  '/guide.html',
+  '/joyful.html',
+  '/luminous.html',
+  '/sorrowful.html',
+  '/glorious.html',
+  '/support.html',
+  '/privacy.html',
+  '/terms.html'
+]);
+const languageSuggestions={
+  en:{
+    message:'Would you like to view With Mary in English?',
+    action:'View in English',
+    regionLabel:'Language suggestion',
+    closeLabel:'Close language suggestion'
+  },
+  fr:{
+    message:'Préférez-vous consulter With Mary en français ?',
+    action:'Voir en français',
+    regionLabel:'Suggestion de langue',
+    closeLabel:'Fermer la suggestion de langue'
+  },
+  es:{
+    message:'¿Prefieres ver With Mary en español?',
+    action:'Ver en español',
+    regionLabel:'Sugerencia de idioma',
+    closeLabel:'Cerrar sugerencia de idioma'
+  }
+};
 
 const saveLanguagePreference=language=>{
   if(!isSupportedLanguage(language))return;
   try{localStorage.setItem(languagePreferenceKey,language)}catch{}
+};
+
+const getStoredLanguageValue=key=>{
+  try{return localStorage.getItem(key)}catch{return null}
+};
+
+const getPrimaryBrowserLanguage=()=>{
+  const candidates=[...(Array.isArray(navigator.languages)?navigator.languages:[]),navigator.language];
+  const primary=candidates.find(language=>typeof language==='string'&&language.trim());
+  return primary?primary.trim().toLowerCase().split(/[-_]/)[0]:'';
+};
+
+const showLanguageSuggestion=header=>{
+  if(!koreanPagePaths.has(window.location.pathname))return;
+
+  const language=getPrimaryBrowserLanguage();
+  const suggestion=languageSuggestions[language];
+  if(!suggestion)return;
+  if(isSupportedLanguage(getStoredLanguageValue(languagePreferenceKey)))return;
+  if(getStoredLanguageValue(languageSuggestionDismissedKey)===language)return;
+
+  const existingLanguageLink=document.querySelector(`.language-switcher a[hreflang="${language}"]`);
+  if(!existingLanguageLink)return;
+
+  const banner=document.createElement('aside');
+  banner.className='language-suggestion-banner';
+  banner.setAttribute('aria-label',suggestion.regionLabel);
+  banner.innerHTML=`
+    <div class="container language-suggestion-inner">
+      <p>${suggestion.message}</p>
+      <div class="language-suggestion-actions">
+        <a class="language-suggestion-link" href="${existingLanguageLink.getAttribute('href')}" hreflang="${language}">${suggestion.action}</a>
+        <button class="language-suggestion-close" type="button" aria-label="${suggestion.closeLabel}"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>`;
+
+  const suggestionLink=banner.querySelector('.language-suggestion-link');
+  const closeButton=banner.querySelector('.language-suggestion-close');
+  suggestionLink.addEventListener('click',()=>saveLanguagePreference(language));
+  closeButton.addEventListener('click',()=>{
+    try{localStorage.setItem(languageSuggestionDismissedKey,language)}catch{}
+    banner.remove();
+    document.body.classList.remove('language-suggestion-visible','language-suggestion-standalone');
+  });
+
+  document.body.classList.add('language-suggestion-visible');
+  if(header){header.insertAdjacentElement('afterend',banner)}
+  else{
+    banner.classList.add('language-suggestion-banner--standalone');
+    document.body.classList.add('language-suggestion-standalone');
+    document.body.prepend(banner);
+  }
 };
 
 document.querySelectorAll('.language-switcher a[hreflang]').forEach(link=>{
@@ -60,6 +145,7 @@ document.addEventListener('keydown',event=>{
 });
 
 const header=document.querySelector('.site-header');
+showLanguageSuggestion(header);
 const revealItems=document.querySelectorAll('.reveal');
 const updateHeader=()=>header?.classList.toggle('scrolled',window.scrollY>18);
 updateHeader();window.addEventListener('scroll',updateHeader,{passive:true});
