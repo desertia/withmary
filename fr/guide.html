@@ -8,7 +8,7 @@
   <link rel="canonical" href="https://withmary.app/fr/guide.html">
   <link rel="alternate" hreflang="ko" href="https://withmary.app/guide.html">
   <link rel="alternate" hreflang="en" href="https://withmary.app/en/guide.html">
-  <link rel="alternate" hreflang="fr" href="https://withmary.app/fr/guide.html">
+  <link rel="alternate" hreflang="fr" href="https://withmary.app/fr/guide.html"><link rel="alternate" hreflang="es" href="https://withmary.app/es/guide.html">
   <link rel="alternate" hreflang="x-default" href="https://withmary.app/guide.html">
   <meta name="robots" content="index, follow">
   <meta property="og:type" content="article">
@@ -76,11 +76,18 @@
       <a href="/fr/terms.html">Conditions</a>
     </nav>
     <div class="header-actions">
-      <nav class="language-switcher" aria-label="Langue">
+      <nav class="language-switcher language-dropdown" aria-label="Langue">
+        <button class="language-dropdown-toggle" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="language-menu-fr-guide">
+          <span class="language-dropdown-current">Français</span>
+          <span class="language-dropdown-chevron" aria-hidden="true"></span>
+        </button>
+        <div class="language-dropdown-menu" id="language-menu-fr-guide" hidden>
         <a class="language-option" href="/guide.html" lang="ko" hreflang="ko">한국어</a>
         <a class="language-option" href="/en/guide.html" lang="en" hreflang="en">English</a>
-        <span class="language-option current" lang="fr" aria-current="page">Français</span>
+        <a class="language-option current" href="/fr/guide.html" lang="fr" hreflang="fr" aria-current="page">Français</a>
+        <a class="language-option" href="/es/guide.html" lang="es" hreflang="es">Español</a>
         <span class="language-option" lang="it" hidden>Italiano</span>
+        </div>
       </nav>
       <a class="header-store-badge" href="/fr/#download" aria-label="Télécharger With Mary dans l’App Store">
         <span class="apple"></span><span><small>Télécharger dans</small>l’App Store</span>

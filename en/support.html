@@ -8,7 +8,7 @@
   <link rel="canonical" href="https://withmary.app/en/support.html">
   <link rel="alternate" hreflang="ko" href="https://withmary.app/support.html">
   <link rel="alternate" hreflang="en" href="https://withmary.app/en/support.html">
-  <link rel="alternate" hreflang="fr" href="https://withmary.app/fr/support.html">
+  <link rel="alternate" hreflang="fr" href="https://withmary.app/fr/support.html"><link rel="alternate" hreflang="es" href="https://withmary.app/es/support.html">
   <link rel="alternate" hreflang="x-default" href="https://withmary.app/support.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="With Mary">
@@ -67,11 +67,18 @@
       <a href="/en/terms.html">Terms</a>
     </nav>
     <div class="header-actions">
-      <nav class="language-switcher" aria-label="Language">
+      <nav class="language-switcher language-dropdown" aria-label="Language">
+        <button class="language-dropdown-toggle" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="language-menu-en-support">
+          <span class="language-dropdown-current">English</span>
+          <span class="language-dropdown-chevron" aria-hidden="true"></span>
+        </button>
+        <div class="language-dropdown-menu" id="language-menu-en-support" hidden>
         <a class="language-option" href="/support.html" lang="ko" hreflang="ko">한국어</a>
-        <span class="language-option current" lang="en" aria-current="page">English</span>
+        <a class="language-option current" href="/en/support.html" lang="en" hreflang="en" aria-current="page">English</a>
         <a class="language-option" href="/fr/support.html" lang="fr" hreflang="fr">Français</a>
+        <a class="language-option" href="/es/support.html" lang="es" hreflang="es">Español</a>
         <span class="language-option" lang="it" hidden>Italiano</span>
+        </div>
       </nav>
       <a class="header-store-badge" href="/en/#download" aria-label="Download With Mary on the App Store">
         <span class="apple"></span><span><small>Download on the</small>App Store</span>

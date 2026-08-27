@@ -1,5 +1,5 @@
 const languagePreferenceKey='preferredLanguage';
-const languageRoutes={ko:'/',en:'/en/',fr:'/fr/'};
+const languageRoutes={ko:'/',en:'/en/',fr:'/fr/',es:'/es/'};
 const isSupportedLanguage=language=>Object.prototype.hasOwnProperty.call(languageRoutes,language);
 
 const saveLanguagePreference=language=>{
@@ -9,6 +9,54 @@ const saveLanguagePreference=language=>{
 
 document.querySelectorAll('.language-switcher a[hreflang]').forEach(link=>{
   link.addEventListener('click',()=>saveLanguagePreference(link.hreflang));
+});
+
+const closeLanguageDropdown=dropdown=>{
+  const toggle=dropdown.querySelector('.language-dropdown-toggle');
+  const menu=dropdown.querySelector('.language-dropdown-menu');
+  if(!toggle||!menu)return;
+  toggle.setAttribute('aria-expanded','false');
+  menu.hidden=true;
+};
+
+document.querySelectorAll('.language-dropdown').forEach(dropdown=>{
+  const toggle=dropdown.querySelector('.language-dropdown-toggle');
+  const menu=dropdown.querySelector('.language-dropdown-menu');
+  if(!toggle||!menu)return;
+
+  toggle.addEventListener('click',()=>{
+    const willOpen=toggle.getAttribute('aria-expanded')!=='true';
+    document.querySelectorAll('.language-dropdown').forEach(closeLanguageDropdown);
+    toggle.setAttribute('aria-expanded',String(willOpen));
+    menu.hidden=!willOpen;
+  });
+
+  toggle.addEventListener('keydown',event=>{
+    if(event.key!=='Enter'&&event.key!==' ')return;
+    event.preventDefault();
+    toggle.click();
+  });
+
+  menu.addEventListener('click',event=>{
+    if(event.target.closest('a'))closeLanguageDropdown(dropdown);
+  });
+});
+
+document.addEventListener('click',event=>{
+  document.querySelectorAll('.language-dropdown').forEach(dropdown=>{
+    if(!dropdown.contains(event.target))closeLanguageDropdown(dropdown);
+  });
+});
+
+document.addEventListener('keydown',event=>{
+  if(event.key!=='Escape')return;
+  document.querySelectorAll('.language-dropdown').forEach(dropdown=>{
+    const toggle=dropdown.querySelector('.language-dropdown-toggle');
+    if(toggle?.getAttribute('aria-expanded')==='true'){
+      closeLanguageDropdown(dropdown);
+      toggle.focus();
+    }
+  });
 });
 
 const header=document.querySelector('.site-header');

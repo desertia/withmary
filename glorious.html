@@ -8,7 +8,7 @@
   <link rel="canonical" href="https://withmary.app/glorious.html">
   <link rel="alternate" hreflang="ko" href="https://withmary.app/glorious.html">
   <link rel="alternate" hreflang="en" href="https://withmary.app/en/glorious.html">
-  <link rel="alternate" hreflang="fr" href="https://withmary.app/fr/glorious.html">
+  <link rel="alternate" hreflang="fr" href="https://withmary.app/fr/glorious.html"><link rel="alternate" hreflang="es" href="https://withmary.app/es/glorious.html">
   <link rel="alternate" hreflang="x-default" href="https://withmary.app/glorious.html">
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="With Mary">
@@ -22,8 +22,9 @@
   <meta name="twitter:description" content="예수님의 부활과 승천, 성령 강림과 성모님의 영광을 함께 묵상해 보세요.">
   <meta name="twitter:image" content="https://withmary.app/assets/icons/app-icon.png">
   <link rel="stylesheet" href="css/style.css">
+  <script src="/js/main.js" defer></script>
   <style>
-    .mystery-page{max-width:900px;margin:0 auto;padding:40px 20px 80px;line-height:1.8}
+    .mystery-page{max-width:900px;margin:0 auto;padding:40px 20px 80px;line-height:1.8}.mystery-language-row{display:flex;justify-content:flex-end;margin-bottom:20px}.language-switcher{display:flex;align-items:center;gap:3px;padding:3px;border:1px solid rgba(29,29,31,.09);border-radius:999px;background:rgba(255,255,255,.75);font-size:11px;white-space:nowrap}.language-option{padding:6px 9px;border-radius:999px;color:#77747f}.language-option:hover{color:var(--purple)}.language-option.current{background:#f0edff;color:var(--purple);font-weight:750}
     .page-back{display:inline-flex;align-items:center;gap:7px;margin-bottom:28px;color:var(--purple);font-size:15px;font-weight:750;transition:transform .2s ease}
     .page-back:hover{transform:translateX(-3px)}
     .mystery-page-header{margin-bottom:36px}
@@ -75,6 +76,19 @@
 </head>
 <body>
 <main class="mystery-page">
+  <div class="mystery-language-row"><nav class="language-switcher language-dropdown" aria-label="언어">
+  <button class="language-dropdown-toggle" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="language-menu-ko-glorious">
+    <span class="language-dropdown-current">한국어</span>
+    <span class="language-dropdown-chevron" aria-hidden="true"></span>
+  </button>
+  <div class="language-dropdown-menu" id="language-menu-ko-glorious" hidden>
+  <a class="language-option current" href="/glorious.html" lang="ko" hreflang="ko" aria-current="page">한국어</a>
+  <a class="language-option" href="/en/glorious.html" lang="en" hreflang="en">English</a>
+  <a class="language-option" href="/fr/glorious.html" lang="fr" hreflang="fr">Français</a>
+  <a class="language-option" href="/es/glorious.html" lang="es" hreflang="es">Español</a>
+  <span class="language-option" lang="it" hidden>Italiano</span>
+  </div>
+</nav></div>
   <a class="page-back" href="guide.html" onclick="returnToPreviousPage(event)">← 이전 페이지</a>
   <header class="mystery-page-header">
     <h1>👑 영광의 신비</h1>
